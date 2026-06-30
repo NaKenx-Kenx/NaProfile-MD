@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaProfile-md — Github Profile README Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0d0e10;
+            color: #c9d1d9;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 1px dashed #2f363d;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 28px;
+            color: #8b949e;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: inline-block;
+            position: relative;
+        }
+
+        h1::after {
+            content: ' [v1.4.0_i18n]';
+            font-size: 11px;
+            color: #444c56;
+            font-weight: 400;
+        }
+
+        p.subtitle {
+            font-size: 13px;
+            color: #58a6ff;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .grid {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        .row {
+            display: table-row;
+        }
+
+        .col-left, .col-right {
+            display: table-cell;
+            vertical-align: top;
+            padding: 10px;
+        }
+
+        .col-left {
+            width: 48%;
+            padding-right: 25px;
+        }
+
+        .col-right {
+            width: 52%;
+            padding-left: 25px;
+            border-left: 1px solid #21262d;
+        }
+
+        .section-title {
+            font-family: 'Courier Prime', monospace;
+            font-size: 15px;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 3px solid #30363d;
+            padding-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 6px;
+        }
+
+        .input-hint {
+            font-size: 11px;
+            color: #58a6ff;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 3px;
+            color: #c9d1d9;
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #58a6ff;
+            background-color: #1c2128;
+        }
+
+        .color-picker-container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            padding: 15px;
+            border-radius: 3px;
+            margin-top: 10px;
+        }
+
+        .picker-group-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #f0f6fc;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .picker-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .picker-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .picker-row label {
+            width: 180px;
+            margin-bottom: 0;
+        }
+
+        .picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: 1px solid #30363d;
+            border-radius: 50%;
+        }
+
+        input[type="color"]::-moz-color-swatch {
+            border: 1px solid #30363d;
+            border-radius: 50%;
+        }
+
+        .hex-val-preview {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #58a6ff;
+            background: #090c10;
+            padding: 4px 8px;
+            border: 1px solid #21262d;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .shortcut-container {
+            margin-top: 8px;
+            background: #090c10;
+            padding: 8px;
+            border: 1px dashed #21262d;
+            border-radius: 3px;
+        }
+
+        .shortcut-title {
+            font-size: 11px;
+            color: #444c56;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .shortcut-list {
+            font-size: 11px;
+            color: #8b949e;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .btn-container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            padding: 12px 24px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+            color: #f0f6fc;
+        }
+
+        .preview-box {
+            background-color: #0d0e10;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 25px;
+            margin-bottom: 25px;
+            min-height: 200px;
+        }
+
+        .preview-header {
+            font-size: 11px;
+            color: #444c56;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 5px;
+        }
+
+        .markdown-body h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            color: #c9d1d9;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 8px;
+        }
+        .markdown-body h2 {
+            font-size: 18px;
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            color: #c9d1d9;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 6px;
+        }
+        .markdown-body p {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .markdown-body ul {
+            padding-left: 2em;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .markdown-body li {
+            margin-top: 0.25em;
+        }
+        .markdown-body img {
+            max-width: 100%;
+            box-sizing: content-box;
+            vertical-align: middle;
+        }
+        .preview-media-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .preview-media-group img {
+            max-height: 100px;
+            border: 1px solid #21262d;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        textarea.code-output {
+            width: 100%;
+            height: 280px;
+            background-color: #090c10;
+            border: 1px solid #21262d;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #8b949e;
+            padding: 15px;
+            resize: vertical;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1f242c;
+            border: 1px solid #388bfd;
+            color: #58a6ff;
+            padding: 10px 20px;
+            font-size: 12px;
+            border-radius: 3px;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>NaProfile-md</h1>
+        <p class="subtitle">Personal portfolio generator. Modular RGB Hex Wheel architecture with flexible multi-media parsing.</p>
+    </header>
+
+    <div class="grid">
+        <div class="row">
+            <div class="col-left">
+                <div class="section-title" id="title-lang">Language</div>
+                <div class="form-group">
+                    <label for="input-lang" id="label-select-lang">Select Output Language</label>
+                    <select id="input-lang">
+                        <option value="en" selected>🇬🇧 English</option>
+                        <option value="id">🇮🇩 Bahasa Indonesia</option>
+                    </select>
+                </div>
+
+                <div class="section-title" id="title-config">Configuration</div>
+                
+                <div class="form-group">
+                    <label for="input-name" id="label-name">Full Name</label>
+                    <input type="text" id="input-name" value="">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-role" id="label-role">Current Role</label>
+                    <input type="text" id="input-role" value="">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-whoami" id="label-whoami">Brief Bio</label>
+                    <textarea id="input-whoami" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="input-hint" id="hint-whoami-images">Who Am I Media Asset (Separated by comma)</div>
+                    <label for="input-whoami-images" id="label-whoami-images">URL Image or GIF Asset</label>
+                    <input type="text" id="input-whoami-images" value="">
+                </div>
+                <div class="form-group">
+                    <label for="input-whoami-links" id="label-whoami-links">URL Related Website (Format -> Name: URL)</label>
+                    <input type="text" id="input-whoami-links" value="">
+                </div>
+
+                <div class="form-group" style="margin-top:25px;">
+                    <label for="input-working" id="label-working">What I'm Working On</label>
+                    <input type="text" id="input-working" value="">
+                </div>
+                <div class="form-group">
+                    <div class="input-hint" id="hint-working-images">What I'm Working On Media Asset (Separated by comma)</div>
+                    <label for="input-working-images" id="label-working-images">URL Image or GIF Asset</label>
+                    <input type="text" id="input-working-images" value="">
+                </div>
+                <div class="form-group">
+                    <label for="input-working-links" id="label-working-links">URL Related Website (Format -> Name: URL)</label>
+                    <input type="text" id="input-working-links" value="">
+                </div>
+
+                <div class="section-title" style="margin-top: 30px;" id="title-badges">Badges</div>
+                
+                <div class="form-group">
+                    <label for="input-skills" id="label-skills">Tech Stack or Tools (Separated by comma)</label>
+                    <input type="text" id="input-skills" value="">
+                    
+                    <div class="shortcut-container">
+                        <div class="shortcut-title" id="title-valid-icons">Valid Icon Slugs:</div>
+                        <div class="shortcut-list">
+                            GitHub, Unity, Godot Engine, Unreal Engine, Blender, Git, Linux, Docker, Neovim, Python, Go, TypeScript, JavaScript, Rust, CPlusPlus (C++), CSharp (C#), HTML5, CSS3, all other...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="color-picker-container">
+                    <div class="picker-group-title" id="title-color-picker">Badge Color Settings</div>
+                    
+                    <div class="picker-row">
+                        <label for="rgb-bg" id="label-rgb-bg">Badge Background Color</label>
+                        <div class="picker-wrapper">
+                            <input type="color" id="rgb-bg" value="#3C4958">
+                            <div class="hex-val-preview" id="val-bg-hex">#24292E</div>
+                        </div>
+                    </div>
+
+                    <div class="picker-row" style="margin-top: 15px;">
+                        <label for="rgb-txt" id="label-rgb-txt">Icon Text Color</label>
+                        <div class="picker-wrapper">
+                            <input type="color" id="rgb-txt" value="#ffffff">
+                            <div class="hex-val-preview" id="val-txt-hex">#58A6FF</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="input-progress" id="label-progress">Learning Cycle (%)</label>
+                    <select id="input-progress">
+                        <option value="25" id="opt-p25"></option>
+                        <option value="50" id="opt-p50"></option>
+                        <option value="75" id="opt-p75" selected></option>
+                        <option value="100" id="opt-p100"></option>
+                    </select>
+                </div>
+
+                <div class="section-title" style="margin-top: 30px;" id="title-contact">Communication Channels</div>
+                
+                <div class="form-group">
+                    <label for="input-email" id="label-email">Public Email</label>
+                    <input type="text" id="input-email" value="">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-linkedin" id="label-linkedin">LinkedIn Username</label>
+                    <input type="text" id="input-linkedin" value="">
+                </div>
+            </div>
+
+            <div class="col-right">
+                <div class="section-title" id="title-live-preview">Live Preview</div>
+                <div class="preview-box">
+                    <div class="preview-header" id="title-terminal-view">Terminal View</div>
+                    <div id="live-preview" class="markdown-body"></div>
+                </div>
+
+                <div class="section-title" id="title-markdown-output">Markdown Output</div>
+                <div class="code-box">
+                    <textarea id="markdown-output" class="code-output" readonly></textarea>
+                    <div class="btn-container">
+                        <button id="btn-copy">Copy Content Script</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast-msg"></div>
+
+<script>
+    const coreInputs = [
+        'input-lang', 'input-name', 'input-role', 'input-whoami', 'input-whoami-images', 'input-whoami-links',
+        'input-working', 'input-working-images', 'input-working-links',
+        'input-skills', 'input-progress', 'input-email', 'input-linkedin'
+    ];
+
+    const rgbPickers = ['rgb-bg', 'rgb-txt'];
+
+    const iconAliasMap = {
+        'unreal engine': 'unrealengine', 'c++': 'cplusplus', 'c#': 'csharp',
+        'html5': 'html5', 'css3': 'css3', 'vs code': 'visualstudiocode',
+        'visual studio code': 'visualstudiocode'
+    };
+
+    const localization = {
+        en: {
+            titleLang: "Language",
+            labelSelectLang: "Select Output Language",
+            titleConfig: "Configuration",
+            labelName: "Full Name",
+            phName: "Example: Keanu El",
+            labelRole: "Current Role",
+            phRole: "Example: Game Developer & Software Systems Engineer",
+            labelWhoAmI: "Who Am I (Brief Bio)",
+            phWhoAmI: "Example: A program architect operating in the realm of game engine development...",
+            hintWhoAmIImg: "Who Am I Media Asset (Separated by comma)",
+            labelWhoAmIImg: "URL Image or GIF Asset",
+            phWhoAmIImg: "Example: https://images.unsplash.com/photo-xxx...",
+            labelWhoAmILink: "URL Related Website (Format -> Name: URL)",
+            phWhoAmILink: "Example: Project Portfolio: https://example.com, Digital Lab: https://lab.com",
+            labelWorking: "What I'm Working On",
+            phWorking: "Example: Designing local state-machine artificial intelligence logic pathways.",
+            hintWorkingImg: "What I'm Working On Media Asset (Separated by comma)",
+            labelWorkingImg: "URL Image or GIF Asset",
+            phWorkingImg: "Example: https://site.com/image.gif",
+            labelWorkingLink: "URL Related Website (Format -> Name: URL)",
+            phWorkingLink: "Example: AI Logic Repo: https://github.com",
+            titleBadges: "Badges",
+            labelSkills: "Tech Stack or Tools (Separated by comma)",
+            phSkills: "Example: GitHub, Unity, Godot, Unreal Engine, Blender, C++, Python",
+            titleValidIcons: "Valid Icon Slugs:",
+            titleColorPicker: "Badge Color Settings (RGB Wheel)",
+            labelRgbBg: "Badge Background Color",
+            labelRgbTxt: "Icon Text Color",
+            labelProgress: "Progress or Learning Cycle (%)",
+            optP25: "25% — Initial Initiation",
+            optP50: "50% — Mid-way",
+            optP75: "75% — Stable Architecture",
+            optP100: "100% — Full Cycle",
+            titleContact: "Communication Channels",
+            labelEmail: "Public Email",
+            phEmail: "Example: yourEmail@domain.com",
+            labelLinkedin: "LinkedIn Username",
+            phLinkedin: "Example: your-username",
+            titleLivePreview: "Live Preview (Simulation)",
+            titleTerminalView: "Terminal View or Rendered Mark",
+            titleMarkdownOutput: "Markdown Output (Raw Copy)",
+            btnCopy: "Copy Content Script",
+            toastCopy: "Copied to clipboard.",
+
+            greeting: "Hello, I am",
+            whoAmI: "👤 Who Am I",
+            workingOn: "⚙ Working On",
+            focus: "Focus",
+            learningCycle: "Current System Update Cycle",
+            channels: "☎ Transmission Channels (Contact)",
+            email: "Electronic Mail",
+            network: "Professional Network",
+            noTools: "No tools entered yet.",
+            footer: "Generated via NaProfile-md — functional, structured, noise-free.",
+            emptyName: "[Name Not Filled]",
+            emptyRole: "[Role Not Filled]",
+            emptyBio: "[Description Not Filled]",
+            emptyWorking: "[Working Focus Not Filled]",
+            emptyEmail: "[Email Not Filled]",
+            emptyLinkedin: "[LinkedIn Not Filled]"
+        },
+        id: {
+            titleLang: "Bahasa",
+            labelSelectLang: "Pilih Bahasa Keluaran",
+            titleConfig: "Konfigurasi Entitas",
+            labelName: "Nama Lengkap",
+            phName: "Contoh: Keanu El",
+            labelRole: "Peran Saat Ini",
+            phRole: "Contoh: Game Developer & Software Systems Engineer",
+            labelWhoAmI: "Who Am I (Deskripsi Singkat)",
+            phWhoAmI: "Contoh: Seorang arsitek program yang beroperasi di wilayah pengembangan mesin game...",
+            hintWhoAmIImg: "Aset Media Who Am I (Dipisahkan dengan koma)",
+            labelWhoAmIImg: "URL Gambar atau Aset GIF",
+            phWhoAmIImg: "Contoh: https://images.unsplash.com/photo-xxx...",
+            labelWhoAmILink: "URL Website Hubungan (Format -> Nama: URL)",
+            phWhoAmILink: "Contoh: Portofolio Proyek: https://example.com, Lab Digital: https://lab.com",
+            labelWorking: "Apa Yang Sedang Dikerjakan",
+            phWorking: "Contoh: Merancang alur logika kecerdasan buatan state-machine lokal.",
+            hintWorkingImg: "Aset Media Yang Sedang Dikerjakan (Dipisahkan dengan koma)",
+            labelWorkingImg: "URL Gambar atau Aset GIF",
+            phWorkingImg: "Contoh: https://site.com/image.gif",
+            labelWorkingLink: "URL Website Hubungan (Format -> Nama: URL)",
+            phWorkingLink: "Contoh: Repo Logika AI: https://github.com",
+            titleBadges: "Kustomisasi Badge & Progress",
+            labelSkills: "Tech Stack atau Perkakas (Dipisahkan dengan koma)",
+            phSkills: "Contoh: GitHub, Unity, Godot, Unreal Engine, Blender, C++, Python",
+            titleValidIcons: "Referensi Nama Ikon yang Valid:",
+            titleColorPicker: "Pengatur Warna Badge & Ikon (Roda RGB)",
+            labelRgbBg: "Warna Latar Belakang Badge",
+            labelRgbTxt: "Warna Konten Ikon atau Teks",
+            labelProgress: "Kemajuan atau Siklus Belajar (%)",
+            optP25: "25% — Inisiasi Awal",
+            optP50: "50% — Pertengahan Jalan",
+            optP75: "75% — Struktur Stabil",
+            optP100: "100% — Siklus Penuh",
+            titleContact: "Kontak Jalur Komunikasi",
+            labelEmail: "Email Terbuka",
+            phEmail: "Contoh: emailAnda@domain.com",
+            labelLinkedin: "Username LinkedIn",
+            phLinkedin: "Contoh: nama-pengguna-anda",
+            titleLivePreview: "Pratinjau Langsung Simulasian",
+            titleTerminalView: "Tampilan Terminal Hasil Render",
+            titleMarkdownOutput: "Keluaran Markdown Salinan Mentah",
+            btnCopy: "Salin Skrip Konten",
+            toastCopy: "Konten disalin ke clipboard.",
+
+            greeting: "Halo, Saya",
+            whoAmI: "👤 Who Am I",
+            workingOn: "⚙ Working On",
+            focus: "Fokus",
+            learningCycle: "Siklus Pembaruan Sistem Saat Ini",
+            channels: "☎ Jalur Transmisi (Kontak)",
+            email: "Surat Elektronik",
+            network: "Jaringan Profesional",
+            noTools: "Belum ada perkakas yang dimasukkan.",
+            footer: "Dibuat via NaProfile-md — fungsional, terstruktur, bebas derau.",
+            emptyName: "[Nama Belum Diisi]",
+            emptyRole: "[Peran Belum Diisi]",
+            emptyBio: "[Deskripsi Belum Diisi]",
+            emptyWorking: "[Fokus Kerja Belum Diisi]",
+            emptyEmail: "[Email Belum Diisi]",
+            emptyLinkedin: "[LinkedIn Belum Diisi]"
+        }
+    };
+
+    function updateStaticUI(lang) {
+        const t = localization[lang];
+        
+        document.getElementById('title-lang').innerText = t.titleLang;
+        document.getElementById('label-select-lang').innerText = t.labelSelectLang;
+        document.getElementById('title-config').innerText = t.titleConfig;
+        document.getElementById('label-name').innerText = t.labelName;
+        document.getElementById('input-name').placeholder = t.phName;
+        document.getElementById('label-role').innerText = t.labelRole;
+        document.getElementById('input-role').placeholder = t.phRole;
+        document.getElementById('label-whoami').innerText = t.labelWhoAmI;
+        document.getElementById('input-whoami').placeholder = t.phWhoAmI;
+        document.getElementById('hint-whoami-images').innerText = t.hintWhoAmIImg;
+        document.getElementById('label-whoami-images').innerText = t.labelWhoAmIImg;
+        document.getElementById('input-whoami-images').placeholder = t.phWhoAmIImg;
+        document.getElementById('label-whoami-links').innerText = t.labelWhoAmILink;
+        document.getElementById('input-whoami-links').placeholder = t.phWhoAmILink;
+        
+        document.getElementById('label-working').innerText = t.labelWorking;
+        document.getElementById('input-working').placeholder = t.phWorking;
+        document.getElementById('hint-working-images').innerText = t.hintWorkingImg;
+        document.getElementById('label-working-images').innerText = t.labelWorkingImg;
+        document.getElementById('input-working-images').placeholder = t.phWorkingImg;
+        document.getElementById('label-working-links').innerText = t.labelWorkingLink;
+        document.getElementById('input-working-links').placeholder = t.phWorkingLink;
+        
+        document.getElementById('title-badges').innerText = t.titleBadges;
+        document.getElementById('label-skills').innerText = t.labelSkills;
+        document.getElementById('input-skills').placeholder = t.phSkills;
+        document.getElementById('title-valid-icons').innerText = t.titleValidIcons;
+        document.getElementById('title-color-picker').innerText = t.titleColorPicker;
+        document.getElementById('label-rgb-bg').innerText = t.labelRgbBg;
+        document.getElementById('label-rgb-txt').innerText = t.labelRgbTxt;
+        document.getElementById('label-progress').innerText = t.labelProgress;
+        
+        document.getElementById('opt-p25').innerText = t.optP25;
+        document.getElementById('opt-p50').innerText = t.optP50;
+        document.getElementById('opt-p75').innerText = t.optP75;
+        document.getElementById('opt-p100').innerText = t.optP100;
+        
+        document.getElementById('title-contact').innerText = t.titleContact;
+        document.getElementById('label-email').innerText = t.labelEmail;
+        document.getElementById('input-email').placeholder = t.phEmail;
+        document.getElementById('label-linkedin').innerText = t.labelLinkedin;
+        document.getElementById('input-linkedin').placeholder = t.phLinkedin;
+        
+        document.getElementById('title-live-preview').innerText = t.titleLivePreview;
+        document.getElementById('title-terminal-view').innerText = t.titleTerminalView;
+        document.getElementById('title-markdown-output').innerText = t.titleMarkdownOutput;
+        document.getElementById('btn-copy').innerText = t.btnCopy;
+    }
+
+    function parseLinks(inputString) {
+        if (!inputString.trim()) return [];
+        return inputString.split(',').map(item => {
+            const parts = item.split(':');
+            if (parts.length < 2) return null;
+            const name = parts[0].trim();
+            const url = parts.slice(1).join(':').trim();
+            return (name && url) ? { name, url } : null;
+        }).filter(item => item !== null);
+    }
+
+    function parseImages(inputString) {
+        if (!inputString.trim()) return [];
+        return inputString.split(',').map(img => img.trim()).filter(img => img.length > 0);
+    }
+
+    function generateOutput() {
+        const data = {};
+        coreInputs.forEach(id => { data[id] = document.getElementById(id).value; });
+
+        const lang = data['input-lang'] || 'en';
+        
+        updateStaticUI(lang);
+        const t = localization[lang];
+
+        const bgPickerVal = document.getElementById('rgb-bg').value;
+        const txtPickerVal = document.getElementById('rgb-txt').value;
+
+        document.getElementById('val-bg-hex').innerText = bgPickerVal.toUpperCase();
+        document.getElementById('val-txt-hex').innerText = txtPickerVal.toUpperCase();
+
+        const bgHex = bgPickerVal.replace('#', '');
+        const txtHex = txtPickerVal.replace('#', '');
+
+        const whoamiImgs = parseImages(data['input-whoami-images']);
+        const whoamiLinks = parseLinks(data['input-whoami-links']);
+        const workingImgs = parseImages(data['input-working-images']);
+        const workingLinks = parseLinks(data['input-working-links']);
+
+        const skillsArr = data['input-skills'].split(',').map(s => s.trim()).filter(s => s.length > 0);
+        let badgesMarkdown = '';
+        let badgesPreviewHTML = '';
+        
+        skillsArr.forEach(skill => {
+            const lowerSkill = skill.toLowerCase();
+            let iconSlug = iconAliasMap[lowerSkill] || skill.replace(/\s+/g, '');
+            const encodedLabel = encodeURIComponent(skill);
+            const encodedIcon = encodeURIComponent(iconSlug);
+            const badgeUrl = `https://img.shields.io/badge/${encodedLabel}-${bgHex}?style=flat-square&logo=${encodedIcon}&logoColor=${txtHex}`;
+
+            badgesMarkdown += `![${skill}](${badgeUrl}) `;
+            badgesPreviewHTML += `<img src="${badgeUrl}" alt="${skill}" style="margin-right:6px; margin-bottom:6px;" onerror="this.style.display='none';" />`;
+        });
+
+        const progressVal = parseInt(data['input-progress']) || 0;
+        const barLength = 20;
+        const filledLength = Math.round((progressVal / 100) * barLength);
+        const emptyLength = barLength - filledLength;
+        const progressBarStr = 'I' + '■'.repeat(filledLength) + '□'.repeat(emptyLength) + `I ${progressVal}%`;
+
+        let mdWhoamiMedia = '';
+        if(whoamiImgs.length > 0) mdWhoamiMedia += '\n' + whoamiImgs.map(url => `![Asset](${url})`).join(' ') + '\n';
+        if(whoamiLinks.length > 0) mdWhoamiMedia += '\n' + whoamiLinks.map(link => `* 🌐 [${link.name}](${link.url})`).join('\n') + '\n';
+
+        let mdWorkingMedia = '';
+        if(workingImgs.length > 0) mdWorkingMedia += '\n' + workingImgs.map(url => `![Asset](${url})`).join(' ') + '\n';
+        if(workingLinks.length > 0) mdWorkingMedia += '\n' + workingLinks.map(link => `* 🌐 [${link.name}](${link.url})`).join('\n') + '\n';
+
+        const markdown = `# ${t.greeting} ${data['input-name'] || '___'} 
+
+> ${data['input-role'] || '___'}
+
+## ${t.whoAmI}
+${data['input-whoami'] || '___'}
+${mdWhoamiMedia}
+* **${t.focus}:** ${data['input-working'] || '___'}
+${mdWorkingMedia}
+* **${t.learningCycle}:**
+    \`\`\`text
+    ${progressBarStr}
+    \`\`\`
+
+## 🛠 Tools & Tech
+${badgesMarkdown || `*${t.noTools}*`}
+
+## ${t.channels}
+* **${t.email}:** [${data['input-email'] || '___'}](mailto:${data['input-email']})
+* **${t.network}:** [linkedin.com/in/${data['input-linkedin'] || '___'}](https://linkedin.com/in/${data['input-linkedin']})
+
+---
+*${t.footer}*`;
+
+        document.getElementById('markdown-output').value = markdown;
+
+        let htmlWhoamiMedia = '';
+        if(whoamiImgs.length > 0) htmlWhoamiMedia += `<div class="preview-media-group">${whoamiImgs.map(url => `<img src="${url}" alt="asset">`).join('')}</div>`;
+        if(whoamiLinks.length > 0) htmlWhoamiMedia += `<ul>${whoamiLinks.map(l => `<li>🌐 <span style="color: #58a6ff; text-decoration:underline;">${l.name}</span></li>`).join('')}</ul>`;
+
+        let htmlWorkingMedia = '';
+        if(workingImgs.length > 0) htmlWorkingMedia += `<div class="preview-media-group">${workingImgs.map(url => `<img src="${url}" alt="asset">`).join('')}</div>`;
+        if(workingLinks.length > 0) htmlWorkingMedia += `<ul>${workingLinks.map(l => `<li>🌐 <span style="color: #58a6ff; text-decoration:underline;">${l.name}</span></li>`).join('')}</ul>`;
+
+        const previewHTML = `
+            <h1>${t.greeting} ${data['input-name'] || `<span style="color:#444c56">${t.emptyName}</span>`}</h1>
+            <p style="font-style: italic; color: #8b949e; margin-bottom: 20px;">${data['input-role'] || t.emptyRole}</p>
+            
+            <h2>${t.whoAmI}</h2>
+            <p>${data['input-whoami'] || t.emptyBio}</p>
+            ${htmlWhoamiMedia}
+            
+            <h2>⚙ ${t.workingOn.replace('⚙ ', '')}</h2>
+            <ul>
+                <li><strong>${t.focus}:</strong> ${data['input-working'] || t.emptyWorking}</li>
+            </ul>
+            ${htmlWorkingMedia}
+            <div style="background: #161b22; padding: 10px; font-family: monospace; font-size: 12px; border: 1px solid #21262d; margin-top: 10px; margin-bottom: 16px;">
+                ${progressBarStr}
+            </div>
+            
+            <h2>🛠 Tools & Tech</h2>
+            <div style="margin-bottom: 16px; min-height: 30px;">${badgesPreviewHTML || `<span style="color:#444c56">${t.noTools}</span>`}</div>
+            
+            <h2>${t.channels}</h2>
+            <ul>
+                <li><strong>${t.email}:</strong> <span style="color: #58a6ff; text-decoration: underline; cursor: pointer;">${data['input-email'] || t.emptyEmail}</span></li>
+                <li><strong>${t.network}:</strong> <span style="color: #58a6ff; text-decoration: underline; cursor: pointer;">linkedin.com/in/${data['input-linkedin'] || t.emptyLinkedin}</span></li>
+            </ul>
+        `;
+        document.getElementById('live-preview').innerHTML = previewHTML;
+    }
+
+    coreInputs.forEach(id => {
+        document.getElementById(id).addEventListener('input', generateOutput);
+        if (document.getElementById(id).tagName === 'SELECT') {
+            document.getElementById(id).addEventListener('change', generateOutput);
+        }
+    });
+
+    rgbPickers.forEach(id => {
+        document.getElementById(id).addEventListener('input', generateOutput);
+    });
+
+    document.getElementById('btn-copy').addEventListener('click', function() {
+        const copyText = document.getElementById('markdown-output');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+
+        const lang = document.getElementById('input-lang').value;
+        const toast = document.getElementById('toast-msg');
+        toast.innerText = localization[lang].toastCopy;
+        
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    });
+
+    generateOutput();
+</script>
+
+</body>
+</html>
